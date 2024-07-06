@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import Cart from "./components/Cart"
-
-import ProductList from "./components/ProductList"
+import Login from "./components/Login";
+import ProductList from "./components/ProductList";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 
 
 const products = [
@@ -12,6 +13,15 @@ const products = [
 ];
 
 function App() {
+  return (
+    <AuthProvider>
+      <Main />
+    </AuthProvider>
+  );
+};
+
+const Main = () => {
+    const { user, logout } = useAuth();
   const [cartItems, setCartItems] = useState(() => {
     const savedCart = localStorage.getItem('cartItems');
     return savedCart ? JSON.parse(savedCart) : [];
@@ -46,12 +56,21 @@ function App() {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">E-commerce Shopping Cart</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <ProductList products={products} addToCart={addToCart} />
-        <Cart cartItems={cartItems} removeFromCart={removeFromCart} />
-      </div>
+      {user ? (
+        <>
+          <button onClick={logout} className="bg-red-500 text-white px-4 py-2 rounded mb-4">Logout</button>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <ProductList products={products} addToCart={addToCart} />
+            <Cart cartItems={cartItems} removeFromCart={removeFromCart} />
+          </div>
+        </>
+      ) : (
+        <Login />
+      )}
+
     </div>
-  )
-}
+  );
+};
+
 
 export default App
