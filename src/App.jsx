@@ -27,7 +27,7 @@ function App() {
 
   const removeFromCart = (product) => {
     const existingItem = cartItems.find(item => item.id === product.id);
-    if (existingItem.quantity ===1) {
+    if (existingItem.quantity === 1) {
       setCartItems(cartItems.filter(item => item.id !== product.id));
     } else {
       setCartItems(cartItems.map(item => 
