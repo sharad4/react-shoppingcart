@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import Cart from "./components/Cart"
 import Login from "./components/Login";
+import Checkout from "./components/Checkout";
 import ProductList from "./components/ProductList";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 
@@ -53,6 +54,18 @@ const Main = () => {
     }
   };
 
+  const updateQuantity = (product, quantity) => {
+    if (quantity <= 0) {
+      removeFromCart(product);
+    } else {
+      setCartItems(cartItems.map(item => 
+        item.id === product.id ? {...item, quantity } : item
+      ));
+    }
+  };
+
+  const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">E-commerce Shopping Cart</h1>
@@ -61,8 +74,9 @@ const Main = () => {
           <button onClick={logout} className="bg-red-500 text-white px-4 py-2 rounded mb-4">Logout</button>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <ProductList products={products} addToCart={addToCart} />
-            <Cart cartItems={cartItems} removeFromCart={removeFromCart} />
+            <Cart cartItems={cartItems} updateQuantity={updateQuantity} removeFromCart={removeFromCart} />
           </div>
+          <Checkout total={total} />
         </>
       ) : (
         <Login />

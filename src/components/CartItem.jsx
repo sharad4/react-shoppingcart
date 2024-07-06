@@ -14,7 +14,7 @@ const CartItem = ({ item, updateQuantity, removeFromCart }) => {
             -
           </button>
           <button
-            onChange={() => updateQuantity(item, item.quantity + 1)}
+            onClick={() => updateQuantity(item, item.quantity + 1)}
             className='bg-gray-300 text-gray-700 px-2 py-1 rounded'
           >
             +

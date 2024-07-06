@@ -1,7 +1,7 @@
 import React from 'react'
 import CartItem from './CartItem';
 
-const Cart = ({ cartItems, removeFromCart }) => {
+const Cart = ({ cartItems, updateQuantity, removeFromCart }) => {
   const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
   
   return (
@@ -11,7 +11,11 @@ const Cart = ({ cartItems, removeFromCart }) => {
         <p>Your cart is empty</p>
       ) : (
         cartItems.map(item => (
-          <CartItem key={item.id} item={item} removeFromCart={removeFromCart} />
+          <CartItem
+           key={item.id}
+           item={item} 
+           updateQuantity={updateQuantity}
+           removeFromCart={removeFromCart} />
         ))
       )}
       <p className='text-green-500 font-bold mt-4'>Totals: ${total.toFixed(2)}</p>
